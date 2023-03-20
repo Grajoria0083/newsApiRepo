@@ -1,0 +1,29 @@
+function myFunction() {
+
+  let url = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f252578253904ac6a249a1516faf61a0"
+
+  let response = UrlFetchApp.fetch(url)
+  let data = response.getContentText()
+  let result = JSON.parse(data)
+
+  let sheet = SpreadsheetApp.getActiveSheet()
+
+  sheet.clear()
+
+  let headRow = ['sourceName','Author','Title','Description','Url']
+  sheet.appendRow(headRow)
+
+  for(var i=0; i<5; i++){
+    let sourceName = result.articles[i].source.name
+    let author = result.articles[i].author
+    let title = result.articles[i].title
+    let description = result.articles[i].description
+    let urls = result.articles[i].url
+    // let content = result.articles[i].content
+
+    let row = [sourceName,author,title,description,urls]
+    sheet.appendRow(row)
+  }
+
+
+}
